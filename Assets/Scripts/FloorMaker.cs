@@ -15,6 +15,8 @@ public class FloorMaker : MonoBehaviour {
 	public Transform floorPrefab; 
 	public Transform floorMakerPrefab;
 
+	public static int globalTileCount; // declare a "public static int" counter variable called "globalTileCount"
+
 	private int myCounter = 0; // count how many floor tiles this FloorMaker has instantiated
 	//private Transform myTransform;
 
@@ -25,20 +27,23 @@ public class FloorMaker : MonoBehaviour {
 	}
 
 	void Update () {
-		if (myCounter < 50) { // if counter is less than 50
+		if (globalTileCount >= 500) {
+			Destroy(this);
+		} else if (myCounter < 50) { // if counter is less than 50
 			float randNum = Random.Range(0.0f, 1.0f); // generate random number from 0.0f to 1.0f
-			if (randNum < 0.25f) { // if random number is less than 0.25f, 
+			if (randNum < 0.15f) { // if random number is less than 0.25f, 
 				// ROTATE MYSELF 90 DEGREES ON Z AXIS
 				transform.Rotate(0, 0, 90);
-			} else if (randNum < 0.5f) { // else if number is 0.25f - 0.5f,
+			} else if (randNum < 0.3f) { // else if number is 0.25f - 0.5f,
 				// ROTATE MYSELF -90 DEGREES ON Z AXIS
 				transform.Rotate(0, 0, -90);
-			} else if (randNum >= 0.99f) { // else if number is 0.99f-1.0f,
+			} else if (randNum >= 0.98f) { // else if number is 0.99f-1.0f,
 				// INSTANTIATE FLOORMAKERPREFAB CLONE AT MY CURRENT POSITION
 				Instantiate(floorMakerPrefab, transform.position, transform.rotation);
 			}
 			// INSTANTIATE A FLOORPREFAB CLONE AT CURRENT POSITION
-			Instantiate(floorPrefab, transform.position, transform.rotation); 
+			Instantiate(floorPrefab, transform.position, transform.rotation);
+			globalTileCount++; // each time you instantiate a floor tile, increment globalTileCount
 			// Move 1 unit "upwards" based on this object's local rotation (e.g. with rotation 0,0,0 "upwards" 
  			// is (0,1,0)... but with rotation 0,0,180 then "upwards" is (0,-1, 0)... )
 			transform.Translate(new Vector3(0f, 1f, 0f)); 
@@ -50,8 +55,11 @@ public class FloorMaker : MonoBehaviour {
 	//  ADD A RESTART BUTTON TO MAKE IT EASIER TO TEST:
 	//  - let us press [R] to reload the scene and see a new level generation
 	//  - ex: https://github.com/radiatoryang/fall2020_gamedev/blob/master/week05_raycasting/Assets/Scripts/RestartScene.cs
-		if (Input.GetKeyDown(KeyCode.R)) 
+		if (Input.GetKeyDown(KeyCode.R)) {
+			Debug.Log("Restart");
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+			globalTileCount = 0; // note: a static var will persist beyond scene changes! 
+		}						 // you have to reset the variable manually when you restart the scene
 	}
 }
 // STEP 2: =====================================================================================
@@ -66,7 +74,6 @@ public class FloorMaker : MonoBehaviour {
 //	- code it so that all the FloorMakers can only spawn a grand total of 500 tiles in the entire world; 
 //    how would you do that?
 //  hints:
-//  - declare a "public static int" counter variable called "globalTileCount"
 //  - each time you instantiate a floor tile, increment globalTileCount
 //  - if there are already too many tiles, then self-destruct without spawning new floor tiles... like 
 //    "if(globalTileCount > 500)" ... "Destroy(gameObject);"
