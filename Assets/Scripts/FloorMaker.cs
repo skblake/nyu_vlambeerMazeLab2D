@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // instructions for students: clone this project, open the VlambeerLabScene, and then start working on this script
 // based on: Vlambeer's level generation system for Nuclear Throne https://indienova.com/u/root/blogread/1766
@@ -15,44 +16,46 @@ public class FloorMaker : MonoBehaviour {
 	public Transform floorMakerPrefab;
 
 	private int myCounter = 0; // count how many floor tiles this FloorMaker has instantiated
-	private Transform myTransform;
+	//private Transform myTransform;
 
 	// Robert's class didn't have a Start() function. I wonder if he intended the code to use the 
 	// floorMakerPrefab's Transform component?
 	void Start() {
-		myTransform = GetComponent<Transform>();
+		//myTransform = GetComponent<Transform>();
 	}
 
 	void Update () {
-		if (myCounter > 50) { // if counter is less than 50
-			int randNum = Random.Range(0.0f, 1.0f); // generate random number from 0.0f to 1.0f
+		if (myCounter < 50) { // if counter is less than 50
+			float randNum = Random.Range(0.0f, 1.0f); // generate random number from 0.0f to 1.0f
 			if (randNum < 0.25f) { // if random number is less than 0.25f, 
 				// ROTATE MYSELF 90 DEGREES ON Z AXIS
-				myTransform.rotation = Quaternion.Euler(0, 0, 90);
+				transform.Rotate(0, 0, 90);
 			} else if (randNum < 0.5f) { // else if number is 0.25f - 0.5f,
 				// ROTATE MYSELF -90 DEGREES ON Z AXIS
-				myTransform.rotation = Quaternion.Euler (0, 0, -90);
+				transform.Rotate(0, 0, -90);
 			} else if (randNum >= 0.99f) { // else if number is 0.99f-1.0f,
 				// INSTANTIATE FLOORMAKERPREFAB CLONE AT MY CURRENT POSITION
-				instantiate(floorMakerPrefab, myTransform.position, myTransform.rotation);
+				Instantiate(floorMakerPrefab, transform.position, transform.rotation);
 			}
 			// INSTANTIATE A FLOORPREFAB CLONE AT CURRENT POSITION
-			instantiate(floorPrefab, myTransform.position, myTransform.rotation); 
+			Instantiate(floorPrefab, transform.position, transform.rotation); 
 			// Move 1 unit "upwards" based on this object's local rotation (e.g. with rotation 0,0,0 "upwards" 
  			// is (0,1,0)... but with rotation 0,0,180 then "upwards" is (0,-1, 0)... )
-			Transform.Translate(new Vector3(myTransform.position.x, myTransform.position.y++, myTransform.position.z)); // TODO : PARAMETERS
+			transform.Translate(new Vector3(0f, 1f, 0f)); 
 			myCounter++; // increment counter
 		} else {
-			Destroy(this); 		// self destruct if I've made enough tiles already
+			Destroy(this); // self destruct if I've made enough tiles already
 		}
+
+	//  ADD A RESTART BUTTON TO MAKE IT EASIER TO TEST:
+	//  - let us press [R] to reload the scene and see a new level generation
+	//  - ex: https://github.com/radiatoryang/fall2020_gamedev/blob/master/week05_raycasting/Assets/Scripts/RestartScene.cs
+		if (Input.GetKeyDown(KeyCode.R)) 
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
 }
 // STEP 2: =====================================================================================
 // implement, test, and stabilize the system
-
-//  ADD A RESTART BUTTON TO MAKE IT EASIER TO TEST:
-//  - let us press [R] to reload the scene and see a new level generation
-//  - ex: https://github.com/radiatoryang/fall2020_gamedev/blob/master/week05_raycasting/Assets/Scripts/RestartScene.cs
 
 //	IMPLEMENT AND TEST:
 //	- save your scene!!! the code could potentially be infinite / exponential, and crash Unity

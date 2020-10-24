@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1205195299569171216}
-  - component: {fileID: 8526925960506713578}
+  - component: {fileID: 6096601669522051802}
   - component: {fileID: 6343382058574851184}
   m_Layer: 0
   m_Name: FloorMaker
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8526925960506713578
+--- !u!114 &6096601669522051802
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,6 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac5378c783021624995364905960b49e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  floorPrefab: {fileID: 8979439212572352807, guid: 4348ebabc3612614f8c839ff067102c7,
+    type: 3}
+  floorMakerPrefab: {fileID: 1205195299569171216}
 --- !u!212 &6343382058574851184
 SpriteRenderer:
   m_ObjectHideFlags: 0
