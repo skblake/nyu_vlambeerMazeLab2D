@@ -31,13 +31,13 @@ public class FloorMaker : MonoBehaviour {
 			Destroy(this);
 		} else if (myCounter < 50) { // if counter is less than 50
 			float randNum = Random.Range(0.0f, 1.0f); // generate random number from 0.0f to 1.0f
-			if (randNum < 0.15f) { // if random number is less than 0.25f, 
+			if (randNum < 0.2f) { // if random number is less than 0.25f, 
 				// ROTATE MYSELF 90 DEGREES ON Z AXIS
 				transform.Rotate(0, 0, 90);
-			} else if (randNum < 0.3f) { // else if number is 0.25f - 0.5f,
+			} else if (randNum < 0.4f) { // else if number is 0.25f - 0.5f,
 				// ROTATE MYSELF -90 DEGREES ON Z AXIS
 				transform.Rotate(0, 0, -90);
-			} else if (randNum >= 0.98f) { // else if number is 0.99f-1.0f,
+			} else if (randNum >= 0.97f) { // else if number is 0.99f-1.0f,
 				// INSTANTIATE FLOORMAKERPREFAB CLONE AT MY CURRENT POSITION
 				Instantiate(floorMakerPrefab, transform.position, transform.rotation);
 			}
